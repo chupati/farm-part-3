@@ -1,0 +1,43 @@
+version: '2'
+services:
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    volumes:
+      - ./data/mongo:/data/db
+      - ./data/mongo-init:/docker-entrypoint-initdb.d
+    ports:
+      - "27017:27017"
+  mongo-express:
+    image: mongo-express:0.54
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_USER}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD}
+  fastapi:
+    build:
+      context: ./
+      dockerfile: fastapi.dockerfile
+    volumes:
+      - './fastapi:/app'
+    ports:
+      - 8000:8000
+    environment:
+      MONGODB_HOST: mongo
+      MONGODB_PORT: 27017
+      MONGODB_USER: ${MONGO_USER}
+      MONGODB_PASSWORD: ${MONGO_PASSWORD}
+      PYTHONPATH: /app
+  react:
+    build:
+      context: ./
+      dockerfile: react.dockerfile
+    volumes:
+      - './farm-react:/app'
+    ports:
+      - 3000:3000
