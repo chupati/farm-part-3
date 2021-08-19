@@ -10,4 +10,5 @@ MONGO_PASSWORD=OTNmYTdjYmZkMjE5ZmYzODg0MDZiYWJh
 
 # Run
 You can run the FARM stack by running the following command.
+
 docker-compose up
