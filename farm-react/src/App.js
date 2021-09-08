@@ -9,7 +9,6 @@ function App() {
   const [comicBookIssueNumber, setComicBookIssueNumber] = useState("");
   const [comicsList, setComicsList] = useState([]);
   const comicSearchHandler = async () => {
-    setComicsList([{"title": "Black Panther"}]);
     const response = await axios.get("http://0.0.0.0:8000/comics/" + comicBookTitle + "/" + comicBookIssueNumber);
     console.log(comicsList);
     console.log(response.data);
